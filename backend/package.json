@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
+    "mongoose-unique-validator": "^3.0.0",
     "nodemon": "^2.0.15"
   }
 }
