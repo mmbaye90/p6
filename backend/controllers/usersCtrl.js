@@ -1,10 +1,10 @@
 //Importation des pckges et du model users
-const User = require("../models/usersModel");
+const userModel = require("../models/usersModel");
 const bcrypt = require("bcrypt");
 
 //La logique du métier
 exports.signup = (req, res) => {
-  const user = new User({
+  const user = new userModel({
     email: req.body.email,
     password: req.body.password,
   });
