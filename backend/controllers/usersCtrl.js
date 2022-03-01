@@ -4,14 +4,23 @@ const bcrypt = require("bcrypt");
 
 //La logique du métier
 exports.signup = (req, res) => {
-  const user = new userModel({
-    email: req.body.email,
-    password: req.body.password,
-  });
-  user
-    .save()
-    .then(() => res.status(200).json({ message: "utilisateur enrégistré" }))
-    .catch(() => res.status(400).json({ message: "user non enregistré" }));
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hash) => {
+      const newRecord = new userModel({
+        email: req.body.email,
+        password: hash,
+      });
+      newRecord
+        .save()
+        .then(() =>
+          res.status(200).json({ message: "User enrégistré !!!!!!!!!!!!" })
+        )
+        .catch(() => res.status(400).json({ message: "User non enregistré" }));
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
 
 exports.login = (req, res) => {
