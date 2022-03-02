@@ -1,6 +1,8 @@
 //Importation des pckges et du model users
 const userModel = require("../models/usersModel");
 const bcrypt = require("bcrypt");
+//Importation jwt
+const jwt = require("jsonwebtoken");
 
 //La logique du métier
 exports.signup = (req, res) => {
@@ -24,5 +26,32 @@ exports.signup = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  console.log("JE SUIS ds LOGIN");
+  userModel
+    .findOne({ email: req.body.email })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({ message: "Utilisateur non trouvé !!!!" });
+      }
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            return res
+              .status(400)
+              .json({ message: "Mot de passe incorrect !!!!" });
+          }
+          res.status(200).json({
+            userId: user._id,
+            token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+              expiresIn: "24h",
+            }),
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({ error });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };
