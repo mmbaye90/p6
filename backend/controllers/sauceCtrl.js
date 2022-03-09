@@ -1,12 +1,20 @@
 //Importation du model sauce
 const sauceModel = require("../models/sauceModel");
 
-//Function creteSauce
+//Function createSauce
 exports.createSauce = (req, res) => {
-  console.log("Je suis dans la sauce à poster");
+    const newRecord = new sauceModel({
+        ...req.body,
+    });
+    newRecord
+        .save()
+        .then(() => {
+            res.status(201).json({ message: "Sauce créée" });
+        })
+        .catch((error) => res.satus(500).json({ error }));
 };
 
 //function geatAllSauce
 exports.getAllSauce = (req, res) => {
-  console.log("je suis dans GET");
+    console.log("je suis dans GET");
 };
