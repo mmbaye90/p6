@@ -8,6 +8,7 @@ const sauceCtrl = require("../controllers/sauceCtrl");
 //Les routes de l'application
 router.post("/", sauceCtrl.createSauce);
 router.get("/", sauceCtrl.getAllSauce);
+router.get("/:id", sauceCtrl.getOneSauce);
 
 //Exportation Router sde la sauce
 module.exports = router;

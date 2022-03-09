@@ -19,8 +19,19 @@ exports.createSauce = (req, res) => {
 exports.getAllSauce = (req, res) => {
     sauceModel
         .find()
-        .then((sauceModel) => {
-            res.status(200).json(sauceModel);
+        .then((sauce) => {
+            res.status(200).json(sauce);
         })
         .catch((error) => res.status(400).json({ error }));
+};
+//Function getOneSauce
+exports.getOneSauce = (req, res) => {
+    sauceModel
+        .find({ _id: req.params.id })
+        .then((oneSauce) => {
+            res.status(200).json(oneSauce);
+        })
+        .catch((error) => {
+            res.status(400).json({ error });
+        });
 };
