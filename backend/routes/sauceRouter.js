@@ -9,6 +9,7 @@ const sauceCtrl = require("../controllers/sauceCtrl");
 router.post("/", sauceCtrl.createSauce);
 router.get("/", sauceCtrl.getAllSauce);
 router.get("/:id", sauceCtrl.getOneSauce);
+router.put("/:id", sauceCtrl.updateSauce);
 
 //Exportation Router sde la sauce
 module.exports = router;

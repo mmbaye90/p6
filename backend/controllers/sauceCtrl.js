@@ -35,3 +35,14 @@ exports.getOneSauce = (req, res) => {
             res.status(400).json({ error });
         });
 };
+//Function updateSauce
+exports.updateSauce = (req, res) => {
+    sauceModel
+        .update({ _id: req.params.id }, {...req.body, _id: req.params.id })
+        .then(() => {
+            res.status(201).json({ message: "Sauce Modifiée" });
+        })
+        .catch((error) => {
+            res.status(400).json({ error });
+        });
+};
