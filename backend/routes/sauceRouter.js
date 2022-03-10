@@ -10,6 +10,7 @@ router.post("/", sauceCtrl.createSauce);
 router.get("/", sauceCtrl.getAllSauce);
 router.get("/:id", sauceCtrl.getOneSauce);
 router.put("/:id", sauceCtrl.updateSauce);
+router.delete("/:id", sauceCtrl.deleteSauce);
 
 //Exportation Router sde la sauce
 module.exports = router;

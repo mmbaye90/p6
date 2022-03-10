@@ -12,7 +12,7 @@ exports.createSauce = (req, res) => {
         .then(() => {
             res.status(201).json({ message: "Sauce créée" });
         })
-        .catch((error) => res.satus(400).json({ error }));
+        .catch((error) => res.status(400).json({ error }));
 };
 
 //function geatAllSauce
@@ -38,11 +38,18 @@ exports.getOneSauce = (req, res) => {
 //Function updateSauce
 exports.updateSauce = (req, res) => {
     sauceModel
-        .update({ _id: req.params.id }, {...req.body, _id: req.params.id })
+        .updateOne({ _id: req.params.id }, {...req.body, _id: req.params.id })
         .then(() => {
             res.status(201).json({ message: "Sauce Modifiée" });
         })
         .catch((error) => {
             res.status(400).json({ error });
         });
+};
+//Function deleteOne
+exports.deleteSauce = (req, res) => {
+    sauceModel
+        .deleteOne({ _id: req.params.id }, {...req.body, _id: req.params.id })
+        .then(() => res.status(200).json({ message: "Sauce supprimée !" }))
+        .catch((error) => res.status(400).json({ error }));
 };
