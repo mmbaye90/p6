@@ -47,9 +47,26 @@ exports.updateSauce = (req, res) => {
         });
 };
 //Function deleteOne
+//Recomposition de la function sauce pour qu'un utilisateur ne puisse supprimer une sauce qui ne l'appartient pas
 exports.deleteSauce = (req, res) => {
+    //on va chercher si l'objet sauce existe dans la BD avec findOne
     sauceModel
-        .deleteOne({ _id: req.params.id }, {...req.body, _id: req.params.id })
-        .then(() => res.status(200).json({ message: "Sauce supprimée !" }))
-        .catch((error) => res.status(400).json({ error }));
+        .findOne({ _id: req.params.id })
+        .then((sauce) => {
+            if (!sauce) {
+                //funtion inversée pour voir l'exixtance d'une sauce
+                res.status(404).json({ message: "Aucune sauce à supprimée" });
+            }
+            //Vérification si le userId correspond bien à celui contenu dans la requete
+            if (sauce.userId !== req.auth.id) {
+                res.status(400).json({ message: "Requete non autorisée" });
+            }
+            //Si le user correspond à celui de la requete et que une sauce est trouvée dans la bd on procéde à a suppression
+            sauceModel.deleteOne({ _id: req.params.id }).then(() => {
+                res.status(204).json({ message: "sauce supprimée" });
+            });
+        })
+        .catch((error) => {
+            res.status(400).json({ error });
+        });
 };
