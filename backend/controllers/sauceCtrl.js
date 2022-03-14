@@ -70,3 +70,8 @@ exports.deleteSauce = (req, res) => {
             res.status(400).json({ error });
         });
 };
+
+//Fonction pour gérer le Like et le dislike(c a d l'évaluation de la sauce par le user)
+exports.rateOneSauce = (req, res) => {
+    console.log("je suis dans la fonction rateSauce");
+};
