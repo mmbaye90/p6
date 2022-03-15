@@ -128,7 +128,7 @@ exports.rateOneSauce = (req, res) => {
                 });
             break;
 
-        case -1:
+        case -1: //le user n'aime pas la sauce ===> likes = -1
             sauceModel
                 .updateOne({ _id: req.params.id }, {
                     $inc: { dislikes: 1 },
