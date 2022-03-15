@@ -113,6 +113,21 @@ exports.rateOneSauce = (req, res) => {
             });
             break;
 
+        case 1: //Le user aime la sauce ===> likes = 1
+            sauceModel
+                .updateOne({ _id: req.params.id }, {
+                    $inc: { likes: 1 },
+                    $push: { usersLiked: req.body.userId },
+                    _id: req.params.id,
+                })
+                .then(() => {
+                    res.status(201).json({ message: "J'aime la sauce" });
+                })
+                .catch((error) => {
+                    res.status(400).json({ error });
+                });
+            break;
+
         default:
     }
 };
