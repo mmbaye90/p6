@@ -73,5 +73,24 @@ exports.deleteSauce = (req, res) => {
 
 //Fonction pour gérer le Like et le dislike(c a d l'évaluation de la sauce par le user)
 exports.rateOneSauce = (req, res) => {
-    console.log("je suis dans la fonction rateSauce");
+    //1-on place tout notre code dans un switch pour gérer les différents cas en ciblant le like contenu dans l'objet de la requete
+    switch (req.body.like) {
+        case 0:
+            //cas où on ne vote pas et pour revenir en arriere
+            //on vérifie si l'objet de la sauce en question existe
+            sauceModel.findOne({ _id: req.params.id }).then((sauce) => {
+                //on accede au tab de userId pour vérifier s'il y'a un userId
+                if (sauce.usersLiked.find((user) => user === userId)) {
+                    //s'il y'a en a on passe à la mise à jour de l'objet sauceModel
+                    sauceModel.updateOne({ _id: req.params.id }, {
+                        $inc: { likes: -1 },
+                        $pull: { usersLiked: req.body.userId },
+                        _id: req.params.id,
+                    });
+                }
+            });
+            break;
+
+        default:
+    }
 };
