@@ -128,6 +128,22 @@ exports.rateOneSauce = (req, res) => {
                 });
             break;
 
+        case -1:
+            sauceModel
+                .updateOne({ _id: req.params.id }, {
+                    $inc: { dislikes: 1 },
+                    $push: { usersDisliked: req.body.userId },
+                    _id: req.params.id,
+                })
+                .then(() => {
+                    res.status(201).json({ message: "Je n'aime pas la sauce" });
+                })
+                .catch((error) => {
+                    res.status(400).json({ error });
+                });
+            break;
+
         default:
+            console.error("bad request");
     }
 };
