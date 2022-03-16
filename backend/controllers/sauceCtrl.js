@@ -43,9 +43,19 @@ exports.getOneSauce = (req, res) => {
         });
 };
 //Function updateSauce
+//Modification de la function pour tenir en compte eux situations : 1-modif de l'objet/é-modif de l'imge
 exports.updateSauce = (req, res) => {
+    //on utilise une opération ternaire pour gérer les deux cas de figure
+    const sauceObject = req.file ?
+        {
+            ...JSON.parse(req.body.sauce),
+            imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+        } :
+        {...req.body };
     sauceModel
-        .updateOne({ _id: req.params.id }, {...req.body, _id: req.params.id })
+        .updateOne({ _id: req.params.id }, {...sauceObject, _id: req.params.id })
         .then(() => {
             res.status(201).json({ message: "Sauce Modifiée" });
         })
