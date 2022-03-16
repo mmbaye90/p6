@@ -8,8 +8,11 @@ const sauceCtrl = require("../controllers/sauceCtrl");
 //Importation du middleware d'authentification
 const auth = require("../middlewares/auth");
 
+//Importation de multer
+const multer = require("../middlewares/multer-config");
+
 //Les routes de l'application
-router.post("/", auth, sauceCtrl.createSauce);
+router.post("/", auth, multer, sauceCtrl.createSauce);
 router.get("/", auth, sauceCtrl.getAllSauce);
 router.get("/:id", auth, sauceCtrl.getOneSauce);
 router.put("/:id", auth, sauceCtrl.updateSauce);
