@@ -72,21 +72,26 @@ exports.deleteSauce = (req, res) => {
     sauceModel
         .findOne({ _id: req.params.id })
         .then((sauce) => {
-            if (!sauce) {
-                //funtion inversée pour voir l'exixtance d'une sauce
-                res.status(404).json({ message: "Aucune sauce à supprimée" });
-            }
-            //Vérification si le userId correspond bien à celui contenu dans la requete
-            if (sauce.userId !== req.auth.id) {
-                res.status(400).json({ message: "Requete non autorisée" });
-            }
-            //Si le user correspond à celui de la requete et que une sauce est trouvée dans la bd on procéde à a suppression
-            sauceModel.deleteOne({ _id: req.params.id }).then(() => {
-                res.status(204).json({ message: "sauce supprimée" });
+            //on extrait le nom de l'image
+            const filename = sauce.imageUrl.split("/images/")[1];
+            //on supprime l'image avec la méthode unlink
+            fs.unlink(`images/${filename}`, () => {
+                if (!sauce) {
+                    //funtion inversée pour voir l'exixtance d'une sauce
+                    res.status(404).json({ message: "Aucune sauce à supprimée" });
+                }
+                //Vérification si le userId correspond bien à celui contenu dans la requete
+                if (sauce.userId !== req.auth.id) {
+                    res.status(400).json({ message: "Requete non autorisée" });
+                }
+                //Si le user correspond à celui de la requete et que une sauce est trouvée dans la bd on procéde à a suppression
+                sauceModel.deleteOne({ _id: req.params.id }).then(() => {
+                    res.status(204).json({ message: "sauce supprimée" });
+                });
             });
         })
         .catch((error) => {
-            res.status(400).json({ error });
+            res.status(500).json({ error });
         });
 };
 
