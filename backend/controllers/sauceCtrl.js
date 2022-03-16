@@ -36,9 +36,9 @@ exports.getAllSauce = (req, res) => {
 //Function getOneSauce
 exports.getOneSauce = (req, res) => {
     sauceModel
-        .find({ _id: req.params.id })
-        .then((oneSauce) => {
-            res.status(200).json(oneSauce);
+        .findOne({ _id: req.params.id })
+        .then((sauce) => {
+            res.status(200).json(sauce);
         })
         .catch((error) => {
             res.status(400).json({ error });
