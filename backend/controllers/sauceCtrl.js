@@ -2,10 +2,17 @@
 const sauceModel = require("../models/sauceModel");
 
 //Function createSauce
+//Modification de la fonction pour prendre en compte le fichier image
 exports.createSauce = (req, res) => {
-    //Insatciation du schemas sauceModel et j'utilise le spread operator pour copier tous du body de la requete
+    //On parse les données reçues du front sous forme de form-datas en JSON
+    const sauceObject = JSON.parse(req.body.sauce);
+    //Instciation du schemas sauceModel et j'utilise le spread operator pour copier tous du body de la requete
     const newRecord = new sauceModel({
-        ...req.body,
+        ...sauceObject,
+        //définition du chemin complet de notre url d'image
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
     });
     newRecord
         .save()
