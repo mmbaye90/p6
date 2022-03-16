@@ -1,5 +1,7 @@
 //Importation du model sauce
 const sauceModel = require("../models/sauceModel");
+//Importationde fs pour la suppression de l'image avec l'objet
+const fs = require("fs");
 
 //Function createSauce
 //Modification de la fonction pour prendre en compte le fichier image
